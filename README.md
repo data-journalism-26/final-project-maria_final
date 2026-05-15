@@ -24,31 +24,26 @@ The second section examines the populations most affected by food deserts throug
 - **Black population distribution** and concentration in food desert areas
 - **Demographic vulnerability** mapping to reveal which communities bear the greatest burden
 
-### Part 3: Redlining, Food Deserts & Systemic Racism
-The final section connects decades of research on redlining and food deserts to investigate:
-- **Historical redlining practices** and their lasting geographic footprint
-- **Contemporary food desert patterns** and their correlation with redlined neighborhoods
-- **Systemic inequality** as a continuation of exclusionary policies
-- **Critical questions**: Are food deserts a new form of exclusion, racism, and non-observable policies that continue to shape American society?
-
----
 
 ## Data Sources
 
-This project utilizes:
-- **USDA Food Access Data** - Official definitions and mapping of food deserts
-- **Demographic Data** - Population, racial composition, and poverty statistics
-- **Redlining History Data** - Historical mapping and documentation of redlined neighborhoods
-- **Geographic Data** - Spatial analysis across U.S. states and regions
-https://smorgasbord.cdp.arch.columbia.edu/modules/19-data_visualization/index
----
+- Food Access Research Atlas (2019) available at https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data
+- Data scrapping using osmextract for data on supermarkets, corner stores, fast-food stores. The R code is available as "supermarket", "retail_data_scrapping" and "fast_food_data_scrapping".
+
+## Resources Consulted
+- To be able to elaborate this page using mapbox I followed a tutorial from chriswhong on GitHub, available at: https://github.com/mapbox/storytelling
+- I also used this resource https://smorgasbord.cdp.arch.columbia.edu/modules/16-intro-webmapping/163-storytelling/
+- Finally, I followed mapbox tutorials on their page
+
+
+
 
 ## Key Findings & Analysis Areas
 
 - **Geographic Disparities**: How food desert characteristics differ across states
 - **Demographic Concentration**: Disproportionate impact on communities of color and low-income populations
 - **Historical Patterns**: Direct connections between 20th-century redlining and current food deserts
-- **Policy Implications**: Questions about whether current food desert patterns represent ongoing systemic exclusion
+- **Policy Implications**: The federal definition is badly articulated for the specificities of what means to be in a food desert across states. 
 
 ---
 
@@ -58,7 +53,6 @@ This project employs:
 - Data mapping and spatial analysis
 - Comparative state-level analysis
 - Multi-layered demographic overlay
-- Historical research and correlation analysis
 - Data visualization for accessible storytelling
 
 ---
@@ -71,7 +65,7 @@ final-project-maria_final/
 ├── data/                     # Raw and processed datasets
 ├── visualizations/           # Interactive maps and charts
 ├── analysis/                 # Notebooks and scripts
-└── documentation/            # Additional research and sources
+
 ```
 
 ---
@@ -80,20 +74,10 @@ final-project-maria_final/
 
 This investigation aims to:
 1. **Raise awareness** about the extent and nature of food deserts in America
-2. **Illuminate connections** between historical policies and present-day inequality
-3. **Facilitate dialogue** about systemic exclusion and ongoing forms of discrimination
-4. **Inform advocacy** for food justice and equitable policy solutions
+2. **Make connections** between historical policies and present-day inequality
+3. **Inform** on how the federal labelling of food deserts is contested and lacks sociological nuances
 
----
 
-## Questions & Themes
-
-- How do USDA-defined food deserts overlap with historically redlined neighborhoods?
-- Which demographic groups are most impacted by food desert proximity?
-- Are food deserts indicative of continuing systemic racism and exclusionary policies?
-- What policy solutions might address these geographic and social inequities?
-
----
 
 ## Author
 
@@ -104,12 +88,12 @@ Data Journalism Final Project | 2026
 
 ## License
 
-This project is created for educational purposes as part of a data journalism initiative.
+This project is created for educational purposes as part of a data journalism course.
 
 ---
 
 ## Acknowledgments
 
-- USDA for food access data and definitions
+- I used AI for debugging and code coherence.
 - Historical researchers and archivists documenting redlining
 - Data journalism best practices and open data communities
