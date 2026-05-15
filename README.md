@@ -4,6 +4,10 @@
 
 This final project builds upon initial data journalism work on food deserts in the United States, providing a comprehensive and improved analysis of where food deserts exist according to the USDA definition. Through interactive visualizations and data-driven storytelling, this project explores the complex relationship between food deserts, historical redlining policies, racial demographics, poverty, and systemic exclusion in America.
 
+
+**View the interactive project here:** [https://data-journalism-26.github.io/final-project-maria_final/](https://data-journalism-26.github.io/final-project-maria_final/)
+ 
+ 
 ---
 
 ## The Story
