@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>A Mile Too Far — Inside America's Food Deserts</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="icon" type="image/x-icon"
+        href="https://raw.githubusercontent.com/mapbox/assembly/publisher-staging/src/svgs/mapbox.svg">
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://cdn.jsdelivr.net/npm/mapbox-gl-globe-minimap@1.2.0/dist/bundle.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css"
+        type="text/css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #111;
+        }
+
+        a,
+        a:hover,
+        a:visited {
+            color: #0071bc;
+        }
+
+        /* ---------- COVER PAGE ---------- */
+
+        #cover {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            background: #ffffff;
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 20;
+        }
+
+        #cover-content {
+            max-width: 760px;
+            padding: 0 5vw;
+        }
+
+        #cover h1 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            margin: 0 0 1rem;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+        }
+
+        #cover h2 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(1.3rem, 2.5vw, 2rem);
+            margin: 0 0 2rem;
+            font-weight: 400;
+            color: #444;
+        }
+
+        #cover .byline {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 4rem;
+        }
+
+        #cover .scroll-hint {
+            position: absolute;
+            bottom: 5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: #888;
+            animation: bounce 2s infinite;
+        }
+
+        #cover .scroll-hint .arrow {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+
+        /* ---------- MAP ---------- */
+
+        #map {
+            top: 0;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #map.visible {
+            opacity: 1;
+        }
+
+        #story {
+            position: relative;
+            z-index: 10;
+        }
+
+        #header {
+            margin: auto;
+            width: 100%;
+            position: relative;
+            z-index: 5;
+        }
+
+        #header h1,
+        #header h2,
+        #header p {
+            margin: 0;
+            padding: 2vh 2vw;
+            text-align: center;
+        }
+
+        #footer {
+            width: 100%;
+            min-height: 5vh;
+            padding: 3vh 10vw;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 1.5;
+            font-size: 13px;
+            position: relative;
+            z-index: 5;
+            background: #ffffff;
+            color: #555;
+        }
+
+        #features {
+            padding-top: 0;
+            padding-bottom: 10vh;
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
+
+        .centered {
+            width: 50vw;
+            margin: 0 auto;
+        }
+
+        .lefty {
+            width: 33vw;
+            margin-left: 5vw;
+        }
+
+        .righty {
+            width: 33vw;
+            margin-left: 62vw;
+        }
+
+        .fully {
+            width: 100%;
+            margin: auto;
+        }
+
+        .light {
+            color: #111;
+            background-color: rgba(255, 255, 255, 0.92);
+        }
+
+        .dark {
+            color: #fafafa;
+            background-color: rgba(40, 40, 40, 0.9);
+        }
+
+        .step {
+            padding-bottom: 50vh;
+            opacity: 0.25;
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step div {
+            padding: 25px 35px;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .step h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.7rem;
+            font-weight: 500;
+            line-height: 1.15;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .step img {
+            width: 100%;
+        }
+
+        /* ---------- SHARED ARTICLE BLOCK STYLES ---------- */
+
+        #intro,
+        #article-transition-1,
+        #closer-look-framing {
+            background: #ffffff;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 11vh 0 14vh 0;
+            box-sizing: border-box;
+        }
+
+        #article-transition-1 .description-after {
+    margin-top: 3rem;
+}
+        #intro > div,
+        #article-transition-1 > div,
+        #closer-look-framing > div {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            box-shadow: none !important;
+            background: #ffffff !important;
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.7;
+            box-sizing: border-box;
+        }
+
+        #intro h3,
+        #article-transition-1 h3,
+        #closer-look-framing h3 {
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 400;
+            text-align: center;
+            margin: 0 auto 2rem auto;
+            max-width: 760px;
+            padding: 0 2rem;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        #intro p,
+        #article-transition-1 p,
+        #closer-look-framing p {
+            max-width: 760px;
+            margin: 0 auto 1.7rem auto;
+            padding: 0 2rem;
+            font-size: clamp(1.15rem, 1.7vw, 1.35rem);
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* Drop cap on intro only — targets the first inner <p> since story.js
+           wraps the description HTML inside an outer <p>. */
+        #intro p p:first-child::first-letter {
+            float: left;
+            font-size: 6.2rem;
+            line-height: 0.82;
+            padding-right: 0.55rem;
+            font-weight: 600;
+        }
+
+        /* ---------- SWIPE MAP CONTAINER ---------- */
+
+        #article-transition-1 #comparison-container {
+            position: relative;
+            width: 96vw;
+            max-width: 1600px;
+            height: 620px;
+            margin: 3rem auto 0 auto;
+            border: none;
+            overflow: hidden;
+            padding: 0;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        #article-transition-1 .compare-map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 0;
+            box-shadow: none;
+        }
+
+/* ---------- MAPBOX COMPARE STYLE ---------- */
+
+#article-transition-1 .mapboxgl-compare {
+    background-color: #1F5582 !important;
+    width: 1px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+}
+
+#article-transition-1 .mapboxgl-compare .compare-swiper-vertical {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    margin: -16px 0 0 0 !important;
+    left: -16px !important;
+    transform: none !important;
+    padding: 0 !important;
+    background-color: #1F5582 !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 14px 14px !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><path fill='white' d='M4 3 L1 7 L4 11 Z M10 3 L13 7 L10 11 Z'/></svg>") !important;
+    box-sizing: border-box !important;
+}
+
+        /* ---------- MOBILE ---------- */
+
+        @media (max-width: 750px) {
+
+            .centered,
+            .lefty,
+            .righty,
+            .fully {
+                width: 90vw;
+                margin: 0 auto;
+            }
+
+            .step div {
+                padding: 22px 24px;
+                font-size: 14px;
+            }
+
+            #cover h1 {
+                font-size: 2.7rem;
+            }
+
+            #cover h2 {
+                font-size: 1.15rem;
+            }
+
+            #intro,
+            #article-transition-1,
+            #closer-look-framing {
+                padding: 8vh 0 12vh 0;
+            }
+
+            #intro h3,
+            #article-transition-1 h3,
+            #closer-look-framing h3 {
+                font-size: 2.4rem;
+                padding: 0 1.4rem;
+                margin-bottom: 2rem;
+            }
+
+            #intro p,
+            #article-transition-1 p,
+            #closer-look-framing p {
+                font-size: 1.1rem;
+                padding: 0 1.4rem;
+            }
+
+            #intro p p:first-child::first-letter {
+                font-size: 4.8rem;
+            }
+
+            #article-transition-1 #comparison-container {
+                height: 460px;
+                width: 100%;
+            }
+
+         #article-transition-1 .mapboxgl-compare .compare-swiper-vertical {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    margin: -18px 0 0 0 !important;
+    left: -18px !important;
+    transform: none !important;
+    background-size: 16px 16px !important;
+}
+        }
+
+        /* Fix issue on mobile browser where scroll breaks */
+        .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan,
+        .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {
+            touch-action: unset;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="cover">
+        <div id="cover-content">
+            <h1>A Mile Too Far</h1>
+            <h2>Inside America's Food Deserts</h2>
+            <p class="byline">By Maria da Silva Ferro | May 12, 2026</p>
+            <div class="scroll-hint">
+                <p>Scroll to begin</p>
+                <div class="arrow">↓</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+    <div id="story"></div>
+
+    <script src="./configuration.js"></script>
+    <script src="./story.js"></script>
+
+</body>
+
+</html>
