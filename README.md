@@ -36,7 +36,7 @@ This project utilizes:
 - **Demographic Data** - Population, racial composition, and poverty statistics
 - **Redlining History Data** - Historical mapping and documentation of redlined neighborhoods
 - **Geographic Data** - Spatial analysis across U.S. states and regions
-
+https://smorgasbord.cdp.arch.columbia.edu/modules/19-data_visualization/index
 ---
 
 ## Key Findings & Analysis Areas
